@@ -148,6 +148,27 @@ app.post('/biodata', async (req, res) => {
 })
 
 
+app.post(
+    '/biodata',
+    validateBody(biodataSchema),
+    async (req, res) => {
+        const { id, nama, nim, kelas } = req.body
+
+        const result = await pool.query(
+            'INSERT INTO biodata (id, nama, nim, kelas) VALUES ($1, $2, $3, $4) RETURNING *',
+            [id, nama, nim, kelas]
+        )
+
+        return successResponse(
+            res,
+            "Data inserted successfully",
+            result.rows[0],
+            201
+        )
+    }
+)
+
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)
 })
