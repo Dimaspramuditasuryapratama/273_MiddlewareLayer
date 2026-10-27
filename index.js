@@ -93,6 +93,31 @@ function validateBody(schema) {
 }
 
 
+function validateParams(schema) {
+    return (req, res, next) => {
+        const { error, value } = schema.validate(req.params, {
+            abortEarly: false,
+            allowUnknown: true
+        })
+
+        if (error) {
+            return errorResponse(
+                res,
+                "Validation Error",
+                400,
+                error.details.map(item => ({
+                    field: item.path.join('.'),
+                    message: item.message
+                }))
+            )
+        }
+
+        req.params = value
+        next()
+    }
+}
+
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)
 })
