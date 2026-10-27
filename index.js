@@ -9,7 +9,7 @@ const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'mahasiswa',
-    password: process.env.DB_PASSWORD,
+    password: 'password',// password postgres
     port: 5432,
 })
 
@@ -32,6 +32,17 @@ app.use((req, res, next) => {
 
     next()
 })
+
+
+function successResponse(res, message, data, status = 200) {
+    return res.status(status).json({
+        status: "true",
+        message,
+        data,
+        error: null
+    })
+}
+
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)
