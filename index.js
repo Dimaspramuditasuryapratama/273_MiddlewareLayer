@@ -220,6 +220,21 @@ app.use((req, res) => {
 })
 
 
+app.use((err, req, res, next) => {
+    console.error(err.stack)
+
+    return errorResponse(
+        res,
+        "Internal Server Error",
+        500
+    )
+})
+
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`)
+})
+
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)
 })
