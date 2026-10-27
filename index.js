@@ -169,6 +169,27 @@ app.post(
 )
 
 
+app.put('/biodata/:id', async (req, res) => {
+    const { id } = req.params
+    const { nama, nim, kelas } = req.body
+
+    const result = await pool.query(
+        'UPDATE biodata SET nama = $1, nim = $2, kelas = $3 WHERE id = $4 RETURNING *',
+        [nama, nim, kelas, id]
+    )
+
+    if (result.rowCount === 0) {
+        return errorResponse(res, "Data not found", 404)
+    }
+
+    return successResponse(
+        res,
+        "Data updated successfully",
+        result.rows[0]
+    )
+})
+
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)
 })
