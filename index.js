@@ -63,6 +63,11 @@ const biodataSchema = Joi.object({
 })
 
 
+const idschema = Joi.object({
+    id: Joi.number().integer().positive().required()
+})
+
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)
 })
