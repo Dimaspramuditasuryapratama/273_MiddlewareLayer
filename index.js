@@ -118,6 +118,19 @@ function validateParams(schema) {
 }
 
 
+app.get('/', async (req, res) => {
+    const result = await pool.query(
+        'SELECT * FROM biodata ORDER BY id'
+    )
+
+    return successResponse(
+        res,
+        "Data retrieved successfully",
+        result.rows
+    )
+})
+
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)
 })
